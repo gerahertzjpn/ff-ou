@@ -1,4 +1,5 @@
-import map, settings
+import map
+import settings
 
 print('main menu')
 print('1 play')

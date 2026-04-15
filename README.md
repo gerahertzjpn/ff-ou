@@ -1,1 +1,1 @@
-Launch main.py
+Launch execute.py
