@@ -1,3 +1,4 @@
 print('main menu')
-print('settings')
+print('1 play')
+print('2 settings')
 print('created by yarick')
