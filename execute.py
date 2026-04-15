@@ -12,4 +12,4 @@ else:
     if selected == 2:
         settings.settings()
     else:
-        print('пошел нахуй')
+        print('бан')
