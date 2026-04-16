@@ -1,3 +1,3 @@
-def mapgeneration ():
-    a = '###########'
-    return (a)
+def mapgeneration():
+    a = "###########"
+    return a
