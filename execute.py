@@ -4,6 +4,7 @@ import settings
 print("main menu")
 print("1 play")
 print("2 settings")
+print("3 exit")
 print("created by yarick+andrew")
 
 while True:
@@ -14,5 +15,8 @@ while True:
     elif selected == 2:
         settings.settings()
         break
+    elif selected == 3:
+        exit()
+        break
     else:
-        print("Нет, из игры нельзя выйти, пиши заново")
+        print("Дожмекаешься щас тут, пиши заново 1, 2 или 3")
