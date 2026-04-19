@@ -1,31 +1,32 @@
-#импортируем модули
+# импортируем модули
 import msvcrt
-from map import (karta as karta, hero as hero)
+from map import karta as karta, hero as hero
 import map
 import mainmenu
 
-#задаем переменные
-setup_sp = 'H'
-setup = 'w'
-setright_sp = 'M'
-setright = 'd'
-setdown_sp = 'P'
-setdown = 's'
-setleft_sp = 'K'
-setleft = 'a'
-exit_button = 'x'
-key = ''
-underhero = '.'
+# задаем переменные
+setup_sp = "H"
+setup = "w"
+setright_sp = "M"
+setright = "d"
+setdown_sp = "P"
+setdown = "s"
+setleft_sp = "K"
+setleft = "a"
+exit_button = "\x1b"
+key = ""
+underhero = "."
 
-#клетки на которые нельзя перейти
-blockedcells = ['/', '#']
+# клетки на которые нельзя перейти
+blockedcells = ["/", "#"]
 
-#запускаем инициализацию
+# запускаем инициализацию
 mainmenu.start_screen()
 map.generation()
 heropos = map.findhero()
 
-#проверяем доступность перехода на некст клетку героем
+
+# проверяем доступность перехода на некст клетку героем
 def checker(x):
     for i in range(len(blockedcells)):
         if x == blockedcells[i]:
@@ -34,54 +35,67 @@ def checker(x):
             result = True
     return result
 
-#реализуем передвижение персонажа по карте
+
+# реализуем передвижение персонажа по карте
 def moveup():
-    if checker(karta[heropos[0] - 1][heropos[1]]):
+    y, x = heropos
+    if checker(karta[y - 1][x]):
         global underhero
-        karta[heropos[0]][heropos[1]] = underhero
-        heropos[0] = heropos[0] - 1 
-        underhero = karta[heropos[0]][heropos[1]]
-        karta[heropos[0]][heropos[1]] = hero
-        return 
+        karta[y][x] = underhero
+        heropos[0] = y - 1
+        y = heropos[0]
+        underhero = karta[y][x]
+        karta[y][x] = hero
+        return
     else:
         return
+
 
 def moveright():
-    if checker(karta[heropos[0]][heropos[1] + 1]):
+    y, x = heropos
+    if checker(karta[y][x + 1]):
         global underhero
-        karta[heropos[0]][heropos[1]] = underhero
-        heropos[1] = heropos[1] + 1 
-        underhero = karta[heropos[0]][heropos[1]]
-        karta[heropos[0]][heropos[1]] = hero
-        return 
+        karta[y][x] = underhero
+        heropos[1] = x + 1
+        x = heropos[1]
+        underhero = karta[y][x]
+        karta[y][x] = hero
+        return
     else:
         return
+
 
 def movedown():
-    if checker(karta[heropos[0] + 1][heropos[1]]):
+    y, x = heropos
+    if checker(karta[y + 1][x]):
         global underhero
-        karta[heropos[0]][heropos[1]] = underhero
-        heropos[0] = heropos[0] + 1 
-        underhero = karta[heropos[0]][heropos[1]]
-        karta[heropos[0]][heropos[1]] = hero
-        return 
+        karta[y][x] = underhero
+        heropos[0] = y + 1
+        y = heropos[0]
+        underhero = karta[y][x]
+        karta[y][x] = hero
+        return
     else:
         return
 
+
 def moveleft():
-    if checker(karta[heropos[0]][heropos[1] - 1]):
+    y, x = heropos
+    if checker(karta[y][x - 1]):
         global underhero
-        karta[heropos[0]][heropos[1]] = underhero
-        heropos[1] = heropos[1] - 1 
-        underhero = karta[heropos[0]][heropos[1]]
-        karta[heropos[0]][heropos[1]] = hero
-        return 
+        karta[y][x] = underhero
+        heropos[1] = x - 1
+        x = heropos[1]
+        underhero = karta[y][x]
+        karta[y][x] = hero
+        return
     else:
         return
+
 
 while key != exit_button:
     map.update(heropos)
-    print('для экзита нажми x')
+    print("For exit press ESC")
     key = msvcrt.getwch()
     if setup == key:
         moveup()
@@ -91,7 +105,7 @@ while key != exit_button:
         movedown()
     elif setleft == key:
         moveleft()
-    elif key in ('\x00', '\xe0'):
+    elif key in ("\x00", "\xe0"):
         key = msvcrt.getwch()
         if setup_sp == key:
             moveup()
