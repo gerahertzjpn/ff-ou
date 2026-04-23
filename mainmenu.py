@@ -1,4 +1,4 @@
-from map import place_list
+from map import FatherList
 
 def set_settings(screen):
     start_screen(screen)
@@ -10,7 +10,8 @@ def start_screen(screen):
         'settings',
         'exit'
     ]
-    respond = place_list(screen, positions, [0])
+    menu = FatherList()
+    respond = menu.place_list(screen, positions, [0])
     if respond == 'play': 
         return
     elif respond == 'settings':

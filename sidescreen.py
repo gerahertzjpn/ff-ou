@@ -1,5 +1,5 @@
-from asciimatics.screen import Screen
-from asciimatics.event import KeyboardEvent
+# from asciimatics.screen import Screen
+# from asciimatics.event import KeyboardEvent
 
 # #задаем переменные
 # sss = []

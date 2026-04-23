@@ -23,6 +23,8 @@ def side_screen(screen):
     screen.draw(xborder * 2, yborder, char=':')
     screen.draw(xborder, yborder, char=':')
     screen.draw(xborder, 0, char=':')
+    change_page = '< 1 / 2 >'
+    screen.print_at(change_page, x + 11, yborder - 1, Screen.COLOUR_WHITE)
     return screen
 
 #получаем карту и индексируем ее через список списков, задаем область отображения экрана
@@ -40,49 +42,19 @@ def read_whiteboard():
             right_dis.append(line.strip("\n"))
 
 #функция для отображения списка с выбором на экране
-def place_list(screen, options, captions=None, position=0, x=0, y=0):
-    wide = 0
-    for n, string in enumerate(options):
-        if n in captions:
-            x_box.append(False)
-            s = len(string)
-            if s > wide:
-                wide = s
-        else:
-            x_box.append(True)
-            s = len('( )' + string)
-            if s > wide:
-                wide = s
-    p = 0
-    while True: 
-        if position + p < len(options) - 1: 
-            p += 1
-            if x_box[position + p]:
-                position += p
-                break
-        else:
-            break
-    def check_for_caption(captions, option, i):
-        if i in captions:
-            return f'{option}'
-        else:
-            return f'( ) {option}'
-    while True:
-        screen.clear_buffer(Screen.COLOUR_BLACK, Screen.A_NORMAL, Screen.COLOUR_BLACK,
-                            x, y, wide, len(options) - 1)
-        # screen.print_at('X', wide, len(options) - 1, Screen.COLOUR_GREEN)
-        for i, option in enumerate(options):
-            stroka = check_for_caption(captions, option, i)
-            screen.print_at(stroka, x, y + i, Screen.COLOUR_WHITE)
-            if position == i:
-                screen.print_at('X', x + 1, y + i, Screen.COLOUR_GREEN)
-        screen.refresh()
+class FatherList:
+
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def _move_in_event(self, screen):
+        position = self.position
         event = screen.get_event()
         if isinstance(event, KeyboardEvent):
-            if event.key_code == ord("q"):
-                return
-            elif event.key_code in (10, 13, Screen.ctrl("m")):
-                return options[position]
+            if event.key_code in (10, 13, Screen.ctrl("m")):
+                self.choice = self.options[position]
+                return screen
             elif event.key_code == Screen.KEY_UP:
                 p = 0
                 while True: 
@@ -96,14 +68,62 @@ def place_list(screen, options, captions=None, position=0, x=0, y=0):
             elif event.key_code == Screen.KEY_DOWN:
                 p = 0
                 while True: 
-                    if position + p < len(options) - 1: 
+                    if position + p < len(self.options) - 1: 
                         p += 1
                         if x_box[position + p]:
                             position += p
                             break
                     else:
                         break
-        sleep(0.05)
+        self.position = position
+        return screen
+
+    def place_list(self, screen, options, captions, position=0):
+        self.options = options
+        self.choice = ''
+        wide = 0
+        for n, string in enumerate(options):
+            if n in captions:
+                x_box.append(False)
+                s = len(string)
+                if s > wide:
+                    wide = s
+            else:
+                x_box.append(True)
+                s = len('( )' + string)
+                if s > wide:
+                    wide = s
+        p = 0
+        while True: 
+            if position + p < len(options) - 1: 
+                p += 1
+                if x_box[position + p]:
+                    position += p
+                    break
+            else:
+                break
+
+        def check_for_caption(captions, option, i):
+            if i in captions:
+                return f'{option}'
+            else:
+                return f'( ) {option}'
+        
+        self.position = position
+        while True:
+            screen.clear_buffer(Screen.COLOUR_BLACK, Screen.A_NORMAL, Screen.COLOUR_BLACK,
+                                self.x, self.y, wide, len(options) - 1)
+            # screen.print_at('X', wide, len(options) - 1, Screen.COLOUR_GREEN)
+            for i, option in enumerate(options):
+                stroka = check_for_caption(captions, option, i)
+                screen.print_at(stroka, self.x, self.y + i, Screen.COLOUR_WHITE)
+                if self.position == i:
+                    screen.print_at('X', self.x + 1, self.y + i, Screen.COLOUR_GREEN)
+            screen.refresh()
+            screen = FatherList._move_in_event(self, screen)   
+            if self.choice != '':
+                return self.choice       
+            sleep(0.05)
 
 # обновление ВСЕГО дисплея!
 def update(screen, center):
