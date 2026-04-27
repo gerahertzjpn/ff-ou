@@ -10,11 +10,11 @@ def start_screen(screen):
         'settings',
         'exit'
     ]
-    menu = FatherList()
-    respond = menu.place_list(screen, positions, [0])
-    if respond == 'play': 
+    menu = FatherList(positions, [0])
+    screen = menu.place_list(screen)
+    if menu.choice == 'play': 
         return
-    elif respond == 'settings':
+    elif menu.choice == 'settings':
         set_settings(screen)
-    elif respond == 'exit':
+    elif menu.choice == 'exit':
         exit()

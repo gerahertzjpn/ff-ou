@@ -9,6 +9,7 @@ from asciimatics.event import KeyboardEvent
 underhero = "."
 map_height = 18
 map_width = 34
+current_page = 1
 
 # клетки на которые нельзя перейти
 blockedcells = ["/", "#", "T"]
@@ -20,15 +21,16 @@ def play_game(screen):
     map.generation()
     heropos = map.findhero()
     mainmenu.start_screen(screen)
+    map.side_screen(screen)
+    map.init_right_window(screen)
 
 
     # проверяем доступность перехода на некст клетку героем
     def checker(x):
+        result = True
         for i in range(len(blockedcells)):
             if x == blockedcells[i]:
                 return False
-            else:
-                result = True
         return result
 
 
@@ -78,21 +80,6 @@ def play_game(screen):
             underhero = karta[y][x]
             karta[y][x] = hero
             return
-    def right_window():
-        while True:
-            map.update(screen, heropos) 
-            key = screen.get_event()
-            if isinstance(key, KeyboardEvent):
-                if key.key_code == Screen.KEY_UP:
-                    moveup()
-                elif key.key_code == Screen.KEY_RIGHT:
-                    moveright()
-                elif key.key_code == Screen.KEY_DOWN:
-                    movedown()
-                elif key.key_code == Screen.KEY_LEFT:
-                    moveleft()
-                elif key.key_code == Screen.KEY_ESCAPE:
-                    return      
 
     while True:
         map.update(screen, heropos) 
@@ -109,7 +96,7 @@ def play_game(screen):
             elif key.key_code == Screen.KEY_ESCAPE:
                 return
             elif key.key_code == ord('e'):
-                right_window()
+                screen = map.right_window(screen)
 
 #запуск функции игры
 Screen.wrapper(play_game)
