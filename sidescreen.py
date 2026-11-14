@@ -1,23 +1,25 @@
+# 旧バージョン（curses / cutie 版）のサイド画面。現在は未使用で、機能は map.py に移行済み
+
 # from asciimatics.screen import Screen
 # from asciimatics.event import KeyboardEvent
 
-# #задаем переменные
+# # 変数の定義
 # sss = []
 
-# #экран выбора на боковой панели
+# # サイドパネルの選択画面
 # def sidescreen_navigation():
 #     sidemenu_choice = [
 #     "equipment",
 #     "quest",
 #     ]
-#     #получаем выбор от игрока
+#     # プレイヤーの選択を取得
 #     choice = cutie.select(sidemenu_choice)
 #     if choice == 0:
 #         return
 #     elif choice == 1:
 #         return
 
-# #обновление боковой панели
+# # サイドパネルの更新
 # def secondwindow(map_height, map_width):
 #     global seconddis
 #     symvol = open("secondscreen.txt", "r", encoding="utf-8")
@@ -39,7 +41,7 @@
 #         seconddis.refresh()
 #     return
 
-# #определяем переменные
+# # 変数の定義
 # screen = []
 
 # # 

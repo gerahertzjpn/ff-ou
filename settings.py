@@ -1,7 +1,9 @@
+# 実験用のコード（すべてコメントアウト済み・現在は未使用）
+
 # class Person:
  
 #     def __init__(self, name):
-#         self.__name = name   # имя человека
+#         self.__name = name   # 人の名前
  
 #     @property
 #     def name(self):
@@ -36,7 +38,7 @@
 #     while True:
 #         for i in range(10):
 #             screen.clear_buffer(Screen.COLOUR_BLACK, Screen.A_NORMAL, Screen.COLOUR_BLACK)
-#             screen.print_at("Нажми ← →, Q для выхода", 3, 2, Screen.COLOUR_WHITE)
+#             screen.print_at("Press <- ->, Q to quit", 3, 2, Screen.COLOUR_WHITE)
 #             event = screen.get_event()
             # if isinstance(event, KeyboardEvent):
             #     if event.key_code in (ord("q"), ord("Q")):

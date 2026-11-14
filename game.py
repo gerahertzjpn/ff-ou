@@ -1,22 +1,25 @@
-# импортируем модули
-from map import karta as karta, hero as hero
-import map
-import mainmenu
-from asciimatics.screen import Screen
-from asciimatics.event import KeyboardEvent
+# ゲームのエントリーポイント（python game.py で起動）
 
-# задаем переменные
+# モジュールのインポート
+import mainmenu
+import map
+from asciimatics.event import KeyboardEvent
+from asciimatics.screen import Screen
+from map import hero as hero
+from map import karta as karta
+
+# 変数の定義（underhero: 主人公の足元にあるマス）
 underhero = "."
 map_height = 18
 map_width = 34
 current_page = 1
 
-# клетки на которые нельзя перейти
+# 通行できないマス
 blockedcells = ["/", "#", "T"]
 
-#функция игры
+# ゲーム本体の関数
 def play_game(screen):
-    # запускаем инициализацию
+    # 初期化処理（テキスト・マップの読み込み、メインメニュー、サイド画面の表示）
     map.read_whiteboard()
     map.generation()
     heropos = map.findhero()
@@ -25,7 +28,7 @@ def play_game(screen):
     map.init_right_window(screen)
 
 
-    # проверяем доступность перехода на некст клетку героем
+    # 主人公が次のマスに移動できるかを判定する
     def checker(x):
         result = True
         for i in range(len(blockedcells)):
@@ -34,7 +37,7 @@ def play_game(screen):
         return result
 
 
-    # реализуем передвижение персонажа по карте
+    # マップ上でのキャラクターの移動
     def moveup():
         y, x = heropos
         if checker(karta[y - 1][x]):
@@ -81,6 +84,8 @@ def play_game(screen):
             karta[y][x] = hero
             return
 
+    # メインループ：マップを描画し、キー入力を処理する
+    # 矢印キー: 移動 / E: サイドメニュー / Esc: 終了
     while True:
         map.update(screen, heropos) 
         key = screen.get_event()
@@ -98,5 +103,5 @@ def play_game(screen):
             elif key.key_code == ord('e'):
                 screen = map.right_window(screen)
 
-#запуск функции игры
+# ゲームを起動
 Screen.wrapper(play_game)
